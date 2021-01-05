@@ -8,6 +8,7 @@ import { BsLocaleService } from 'ngx-bootstrap/datepicker';
 import { defineLocale } from 'ngx-bootstrap/chronos';
 import { ptBrLocale } from 'ngx-bootstrap/locale';
 import { templateJitUrl } from '@angular/compiler';
+import { ToastrService } from 'ngx-toastr';
 defineLocale('pt-br', ptBrLocale);
 
 
@@ -18,10 +19,12 @@ defineLocale('pt-br', ptBrLocale);
 })
 export class EventosComponent implements OnInit {
 
+  titulo = 'Eventos';
+
+
   //PROBLEMAS com as declarações
   eventosFiltrados: Evento[] = [];
   eventos: Evento[] = [];
-
   evento: Evento;
   modoSalvar = 'post';
 
@@ -39,6 +42,7 @@ export class EventosComponent implements OnInit {
     , private modalService: BsModalService
     , private fb: FormBuilder
     , private localeService: BsLocaleService
+    , private toastr: ToastrService
     ) {
       this.localeService.use('pt-br');
     }
@@ -76,7 +80,9 @@ export class EventosComponent implements OnInit {
       () => {
           template.hide();
           this.getEventos();
+          this.toastr.success('Apagado com sucesso');
         }, error => {
+          this.toastr.error('Erro ao tentar apagar');
           console.log(error);
         }
     );
@@ -127,8 +133,9 @@ export class EventosComponent implements OnInit {
           (novoEvento: Evento) => {
             template.hide();
             this.getEventos();
+            this.toastr.success('Inserido com sucesso!');
           }, error => {
-            console.log(error);
+            this.toastr.error(`Erro ao inserir: ${error}`);
           }
         );
       } else {
@@ -137,8 +144,9 @@ export class EventosComponent implements OnInit {
           () => {
             template.hide();
             this.getEventos();
+            this.toastr.success('Editado com sucesso!');
           }, error => {
-            console.log(error);
+            this.toastr.error(`Erro ao Editar: ${error}`);
           }
         );
       }
@@ -151,9 +159,8 @@ export class EventosComponent implements OnInit {
       (_eventos: Evento[]) => {
        this.eventos = _eventos;
        this.eventosFiltrados = this.eventos;
-       console.log(_eventos);
       }, error  => {
-        console.log(error);
+        this.toastr.error(`Erro ao tentar carregar eventos: ${error}`);
       }
     );
   }
