@@ -22,11 +22,13 @@ export class EventoEditComponent implements OnInit {
   dataAtual = '';
 
   get lotes(): FormArray {
-    return <FormArray>this.registerForm.get('lotes');
+    // tslint:disable-next-line:no-angle-bracket-type-assertion
+    return <FormArray> this.registerForm.get('lotes');
   }
 
   get redesSociais(): FormArray {
-    return <FormArray>this.registerForm.get('redesSociais');
+    // tslint:disable-next-line:no-angle-bracket-type-assertion
+    return <FormArray> this.registerForm.get('redesSociais');
   }
 
   constructor(
@@ -39,11 +41,13 @@ export class EventoEditComponent implements OnInit {
     this.localeService.use('pt-br');
   }
 
+  // tslint:disable-next-line:typedef
   ngOnInit() {
     this.validation();
     this.carregarEvento();
   }
 
+  // tslint:disable-next-line:typedef
   carregarEvento() {
     const idEvento = +this.router.snapshot.paramMap.get('id');
     this.eventoService.getEventoById(idEvento)
@@ -67,6 +71,7 @@ export class EventoEditComponent implements OnInit {
       )
   }
 
+  // tslint:disable-next-line:typedef
   validation() {
     this.registerForm = this.fb.group({
       id: [],
@@ -124,7 +129,7 @@ export class EventoEditComponent implements OnInit {
     reader.onload = (event: any) => this.imagemURL = event.target.result;
 
     // tslint:disable-next-line: deprecation
-    this.file = event?.target.files;
+    this.file = evento.target.files;
     reader.readAsDataURL(file[0]);
   }
 
